@@ -1277,6 +1277,744 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 </xmp>
+<h1> calc</h1>
+<xmp> 
+import 'package:flutter/material.dart';
+import 'dart:math' as math;
+import 'package:math_expressions/math_expressions.dart';
+
+
+void main() {
+  runApp(CalculatorApp());
+}
+
+class CalculatorApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Calculator',
+      theme: ThemeData(
+        primaryColor: Colors.blue[900],
+        scaffoldBackgroundColor: Colors.blue[200],
+      ),
+      home: CalculatorScreen(),
+    );
+  }
+}
+
+class CalculatorScreen extends StatefulWidget {
+  @override
+  _CalculatorScreenState createState() => _CalculatorScreenState();
+}
+
+class _CalculatorScreenState extends State<CalculatorScreen> {
+  String output = '';
+
+  void buttonPressed(String buttonText) {
+    setState(() {
+      if (buttonText == 'C') {
+        output = '';
+      } else if (buttonText == '=') {
+        output = _calculate();
+      } else {
+        output += buttonText;
+      }
+    });
+  }
+
+  String _calculate() {
+    String expression = output;
+    expression = expression.replaceAll('×', '*');
+    expression = expression.replaceAll('÷', '/');
+
+    try {
+      // Parse and evaluate the expression
+      Parser p = Parser();
+      Expression exp = p.parse(expression);
+      ContextModel cm = ContextModel();
+      double result = exp.evaluate(EvaluationType.REAL, cm);
+      return result.toString();
+    } catch (e) {
+      return 'Error';
+    }
+  }
+
+  double customParse(String expression) {
+    return 0.0;
+  }
+
+  Widget buildButton(String buttonText, {Color color = Colors.white}) {
+    return Expanded(
+      child: ElevatedButton(
+        onPressed: () => buttonPressed(buttonText),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(color),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ),
+        child: Text(
+          buttonText,
+          style: TextStyle(fontSize: 20),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Calculator'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.all(20),
+              alignment: Alignment.bottomRight,
+              child: Text(
+                output,
+                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          Divider(height: 1, color: Colors.black),
+          Column(
+            children: [
+              // Rows for basic arithmetic operations
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  buildButton('7'),
+                  buildButton('8'),
+                  buildButton('9'),
+                  buildButton('÷'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  buildButton('4'),
+                  buildButton('5'),
+                  buildButton('6'),
+                  buildButton('×'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  buildButton('1'),
+                  buildButton('2'),
+                  buildButton('3'),
+                  buildButton('-'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  buildButton('C', color: Colors.red),
+                  buildButton('0'),
+                  buildButton('=', color: Colors.blue),
+                  buildButton('+'),
+                ],
+              ),              // Rows for advanced functions
+              
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+</xmp>
+<h1> decimal counter </h1>
+<xmp>
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Counting App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: CountingScreen(),
+    );
+  }
+}
+
+class CountingScreen extends StatefulWidget {
+  @override
+  _CountingScreenState createState() => _CountingScreenState();
+}
+
+class _CountingScreenState extends State<CountingScreen> {
+  int _count = 0;
+
+  void _incrementCount() {
+    setState(() {
+      _count++%10;
+    });
+  }
+
+  void _resetCount() {
+    setState(() {
+      _count = 0;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Counting App'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Count:',
+              style: TextStyle(fontSize: 24.0),
+            ),
+            Text(
+              '$_count',
+              style: TextStyle(fontSize: 48.0),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+            onPressed: _incrementCount,
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+          ),
+          SizedBox(height: 16.0),
+          FloatingActionButton(
+            onPressed: _resetCount,
+            tooltip: 'Reset',
+            child: Icon(Icons.refresh),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+</xmp>
+
+<h1> hex counter </h1>
+<xmp> 
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Hexadecimal Counter',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: HexCounter(),
+    );
+  }
+}
+
+class HexCounter extends StatefulWidget {
+  @override
+  _HexCounterState createState() => _HexCounterState();
+}
+
+class _HexCounterState extends State<HexCounter> {
+  int _count = 0;
+
+  void _incrementCount() {
+    setState(() {
+      _count++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Hexadecimal Counter'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Count:',
+              style: TextStyle(fontSize: 24),
+            ),
+            Text(
+              _count.toRadixString(16).toUpperCase(), // Convert count to hexadecimal string
+              style: TextStyle(fontSize: 36),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCount,
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+</xmp>
+<h1> Page Route </h1>
+<xmp>
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(
+    const MaterialApp(
+      home: Page1(),
+    ),
+  );
+}
+
+class Page1 extends StatelessWidget {
+  const Page1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).push(_createRoute());
+          },
+          child: const Text('Go!'),
+        ),
+      ),
+    );
+  }
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => const Page2(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+class Page2 extends StatelessWidget {
+  const Page2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: const Center(
+        child: Text('Page 2'),
+      ),
+    );
+  }
+}
+</xmp>
+<h1> Layout q</h1>
+<xmp> 
+import 'package:flutter/material.dart';
+// Uncomment lines 3 and 6 to view the visual layout at runtime.
+// import 'package:flutter/rendering.dart' show debugPaintSizeEnabled;
+
+void main() {
+  // debugPaintSizeEnabled = true;
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget titleSection = Container(
+      padding: const EdgeInsets.all(32),
+      child: Row(
+        children: [
+          Expanded(
+            /*1*/
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /*2*/
+                Container(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: const Text(
+                    'Oeschinen Lake Campground',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Text(
+                  'Kandersteg, Switzerland',
+                  style: TextStyle(
+                    color: Colors.grey[500],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          /*3*/
+          Icon(
+            Icons.star,
+            color: Colors.red[500],
+          ),
+          const Text('41'),
+        ],
+      ),
+    );
+
+    Color color = Theme.of(context).primaryColor;
+
+    Widget buttonSection = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildButtonColumn(color, Icons.call, 'CALL'),
+        _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
+        _buildButtonColumn(color, Icons.share, 'SHARE'),
+      ],
+    );
+
+    Widget textSection = const Padding(
+      padding: EdgeInsets.all(32),
+      child: Text(
+        'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
+        'Alps. Situated 1,578 meters above sea level, it is one of the '
+        'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
+        'half-hour walk through pastures and pine forest, leads you to the '
+        'lake, which warms to 20 degrees Celsius in the summer. Activities '
+        'enjoyed here include rowing, and riding the summer toboggan run.',
+        softWrap: true,
+      ),
+    );
+
+    return MaterialApp(
+      title: 'Flutter layout demo',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter layout demo'),
+        ),
+        body: ListView(
+          children: [
+            Image.asset(
+              'assets/images/india.jpg',
+              width: 224,
+              height: 224,
+              fit: BoxFit.cover,
+            ),
+            titleSection,
+            buttonSection,
+            textSection,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Column _buildButtonColumn(Color color, IconData icon, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon, color: color),
+        Container(
+          margin: const EdgeInsets.only(top: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: color,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+</xmp>
+<h1> todo </h1>
+<xmp> 
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const TodoApp());
+}
+
+class TodoApp extends StatelessWidget {
+  const TodoApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Todo Manager',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const TodoList(title: 'Todo Manager'),
+    );
+  }
+}
+
+class TodoList extends StatefulWidget {
+  const TodoList({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<TodoList> createState() => _TodoListState();
+}
+
+class _TodoListState extends State<TodoList> {
+  final List<Todo> _todos = <Todo>[];
+  final TextEditingController _textFieldController = TextEditingController();
+
+  void _addTodoItem(String name) {
+    setState(() {
+      _todos.add(Todo(name: name, completed: false));
+    });
+    _textFieldController.clear();
+  }
+
+  void _handleTodoChange(Todo todo) {
+    setState(() {
+      todo.completed = !todo.completed;
+    });
+  }
+
+  void _deleteTodo(Todo todo) {
+    setState(() {
+      _todos.removeWhere((element) => element.name == todo.name);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        children: _todos.map((Todo todo) {
+          return TodoItem(
+              todo: todo,
+              onTodoChanged: _handleTodoChange,
+              removeTodo: _deleteTodo);
+        }).toList(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>{ _displayDialog()},
+        tooltip: 'Add a Todo',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  void _displayDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add a todo'),
+          content: TextField(
+            controller: _textFieldController,
+            decoration: const InputDecoration(hintText: 'Type your todo'),
+            autofocus: true,
+          ),
+          actions: <Widget>[
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _addTodoItem(_textFieldController.text);
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class Todo {
+  Todo({required this.name, required this.completed});
+  String name;
+  bool completed;
+}
+
+class TodoItem extends StatelessWidget {
+  TodoItem(
+      {required this.todo,
+      required this.onTodoChanged,
+      required this.removeTodo})
+      : super(key: ObjectKey(todo));
+
+  final Todo todo;
+  final void Function(Todo todo) onTodoChanged;
+  final void Function(Todo todo) removeTodo;
+
+  TextStyle? _getTextStyle(bool checked) {
+    if (!checked) return null;
+
+    return const TextStyle(
+      color: Colors.black54,
+      decoration: TextDecoration.lineThrough,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        onTodoChanged(todo);
+      },
+      leading: Checkbox(
+        checkColor: Colors.greenAccent,
+        activeColor: Colors.red,
+        value: todo.completed,
+        onChanged: (value) {
+          onTodoChanged(todo);
+        },
+      ),
+      title: Row(children: <Widget>[
+        Expanded(
+          child: Text(todo.name, style: _getTextStyle(todo.completed)),
+        ),
+        IconButton(
+          iconSize: 30,
+          icon: const Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+          alignment: Alignment.centerRight,
+          onPressed: () {
+            removeTodo(todo);
+          },
+        ),
+      ]),
+    );
+  }
+}
+
+</xmp>
+<h1> Web serv</h1>
+<xmp>
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'HTTP Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<dynamic> data = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
+    if (response.statusCode == 200) {
+      setState(() {
+        data = json.decode(response.body);
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('HTTP Example'),
+      ),
+      body: ListView.builder(
+        itemCount: data.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(data[index]['title']),
+            subtitle: Text(data[index]['body']),
+          );
+        },
+      ),
+    );
+  }
+}
+
+</xmp>
 </body>
 </html>
 
