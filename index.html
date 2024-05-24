@@ -2015,6 +2015,143 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 </xmp>
+<h1> DART - ARM</h1>
+<xmp>
+import 'dart:math';
+
+// Function to calculate the number of digits in a number
+int numberOfDigits(int number) {
+  int count = 0;
+  while (number != 0) {
+    count++;
+    number ~/= 10;
+  }
+  return count;
+}
+
+// Function to check if a number is an Armstrong number
+bool isArmstrong(int number) {
+  int numDigits = numberOfDigits(number);
+  int temp = number;
+  int sum = 0;
+  
+  while (temp != 0) {
+    int digit = temp % 10;
+    sum += pow(digit, numDigits).toInt();
+    temp ~/= 10;
+  }
+  
+  return sum == number;
+}
+
+void main() {
+  int number = 153; // Change the number here to check different numbers
+  if (isArmstrong(number)) {
+    print('$number is an Armstrong number.');
+  } else {
+    print('$number is not an Armstrong number.');
+  }
+}
+
+import 'dart:io';
+
+void main() {
+  stdout.write("Enter a number: "); // Prompts the user to enter a number
+  String userInput = stdin.readLineSync()!; // Reads user input as a string
+  int x = int.parse(userInput); // Converts the user input string to an integer
+  print(x.toRadixString(16)); // Prints the hexadecimal representation of the input number
+}
+
+
+</xmp>
+<h1> dart fact - fibb </h1>
+<xmp>
+
+int factorial(int number){
+  if (number ==1||number ==  0){
+    return 1;
+  }
+  else{
+    return number*factorial(number-1);
+  }
+
+}
+void main(){
+  int number = 5; // Change the number here to find factorial for a different number
+  int result = factorial(number);
+  print('Factorial of $number is $result');
+}
+
+
+List<int> generateFibonacci(int n) {
+  List<int> fib = [0, 1];
+  for (int i = 2; i < n; i++) {
+    fib.add(fib[i - 1] + fib[i - 2]);
+  }
+  return fib;
+}
+
+void main() {
+  int n = 10;
+  List<int> fibonacciSequence = generateFibonacci(n);
+  print(fibonacciSequence); // Output: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+}
+
+</xmp>
+<h1> Pal </h1>
+<xmp>
+bool isPalindrome(String str) {
+  String cleanStr = str.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
+  return cleanStr == cleanStr.split('').reversed.join('');
+}
+
+void main() {
+  String testStr = "A man, a plan, a canal, Panama";
+  print(isPalindrome(testStr)); // Output: true
+}
+
+
+
+
+
+bool isPrime(int number) {
+  if (number <= 1) {
+    return false; // 0 and 1 are not prime numbers
+  }
+  for (int i = 2; i <= number / 2; i++) {
+    if (number % i == 0) {
+      return false; // If the number is divisible by any number other than 1 and itself, it's not prime
+    }
+  }
+  return true; // If the number is not divisible by any number other than 1 and itself, it's prime
+}
+
+void main() {
+  int number = 17; // Change this number to test other numbers
+  if (isPrime(number)) {
+    print('$number is a prime number');
+  } else {
+    print('$number is not a prime number');
+  }
+}
+
+int rev(int num){
+  int num1=0;
+  while (num !=0){
+    int rem=num%10;
+    num1=(num1*10)+rem;
+    num ~/=10;
+  
+  }
+  return num1;
+}
+void main() {
+  int number = 12345;
+  int reversedNumber = rev(number);
+  print('Original number: $number');
+  print('Reversed number: $reversedNumber');
+}
+</xmp>
 </body>
 </html>
 
